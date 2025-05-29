@@ -1,0 +1,1209 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="狐饼,Eugrlt,Blog,iFox">
+    <meta name="description" content="记录自己学习网安的历程">
+    <meta name="author" content="狐饼">
+    
+    <title>
+        
+            OverTheWire闯关笔记Bandit篇 |
+        
+        狐饼&#39;s Blog
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+        <link rel="shortcut icon" href="https://s2.loli.net/2023/03/21/6hreGo78basMSvC.png">
+    
+    
+<link rel="stylesheet" href="/font/css/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/regular.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/solid.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/brands.min.css">
+
+    
+    <script class="keep-theme-configurations">
+    const KEEP = window.KEEP || {}
+    KEEP.hexo_config = {"hostname":"blog.ifox.moe","root":"/","language":"zh-CN"}
+    KEEP.theme_config = {"base_info":{"primary_color":"#0066cc","title":"狐饼's Blog","author":"狐饼","avatar":"https://s2.loli.net/2023/03/21/6hreGo78basMSvC.png","logo":null,"favicon":"https://s2.loli.net/2023/03/21/6hreGo78basMSvC.png"},"menu":{"home":"/","时间线":"/archives","tags":"/tags","categories":"/categories","about":"/about"},"first_screen":{"enable":true,"background_img":"/images/bg.svg","background_img_dark":"/images/bg.svg","description":null,"hitokoto":true},"social_contact":{"enable":true,"links":{"github":"https://github.com/iFoxQvQ","x":"https://x.com/eugrlt","email":"e@ifox.moe","telegram":"https://t.me/iFox_QvQ"}},"scroll":{"progress_bar":true,"percent":true,"hide_header":false},"home":{"announcement":null,"category":true,"tag":true,"post_datetime":"updated","post_datetime_format":"YYYY-MM-DD HH:mm:ss"},"post":{"author_badge":{"enable":true,"level_badge":true,"custom_badge":["One","Two","Three"]},"word_count":{"wordcount":true,"min2read":true},"datetime_format":"YYYY-MM-DD HH:mm:ss","copyright_info":true,"share":true,"reward":{"enable":false,"img_link":null,"text":null}},"code_block":{"tools":{"enable":true,"style":"default"},"highlight_theme":"default"},"toc":{"enable":true,"number":true,"expand_all":true,"init_open":true,"layout":"right"},"website_count":{"busuanzi_count":{"enable":true,"site_uv":true,"site_pv":true,"page_pv":true}},"local_search":{"enable":true,"preload":true},"comment":{"enable":false,"use":"waline","waline":{"server_url":"https://comment.blog.ifox.moe","reaction":true}},"rss":{"enable":false},"lazyload":{"enable":true},"cdn":{"enable":false,"provider":"cdnjs"},"pjax":{"enable":true},"footer":{"since":2022,"word_count":true,"site_deploy":{"enable":true,"provider":"vercel","url":null},"record":{"enable":false,"list":[{"code":null,"link":null}]}},"inject":{"enable":false,"css":[null],"js":[null]},"root":"","source_data":{"icons":{"pixiv":{"svg":"<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 448 512\"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d=\"M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64zm171.5 84c41 0 76.3 12.9 101.4 35.2l0 0c25.2 22.2 39.8 54.1 39.8 88.8c.1 35.3-16.6 66.3-42.4 87c-25.9 20.8-60.6 32.4-98.8 32.4c-43.5 0-83.8-16.1-83.8-16.1v51.8c7.4 2.2 19.7 7 11.9 14.8H104.8c-7.7-7.8 3.6-12.4 12.1-14.8V175.5C97.1 190.9 87 204.3 81.8 214.2c6 19.4-5.3 18.5-5.3 18.5L56 199.7s72.7-83.7 179.5-83.7zm-3.6 222.9c30 0 56-11.3 73.9-29.2c17.9-18.1 27.9-41.6 28-70.2c-.1-29.3-9.5-54.6-26.7-73.6c-17.2-18.9-42.7-31.3-75.2-31.4c-26.7-.1-59.8 9-80.2 23.7V323.1c18.6 9.3 46.8 15.9 80.2 15.8z\"/></svg>","link":"https://www.pixiv.net/users/23369066"}}},"version":"4.2.5"}
+    KEEP.language_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"}
+    KEEP.language_code_block = {"copy":"复制代码","copied":"已复制","fold":"折叠代码块","folded":"已折叠"}
+    KEEP.language_copy_copyright = {"copy":"复制版权信息","copied":"已复制","title":"原文标题","author":"原文作者","link":"原文链接"}
+  </script>
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+        <span class="scroll-progress-bar"></span>
+    
+
+    
+        <span class="pjax-progress-bar"></span>
+        <i class="pjax-progress-icon fas fa-circle-notch fa-spin"></i>
+    
+</div>
+
+
+
+<main class="page-container border-box">
+    <!-- home first screen  -->
+    
+
+    <!-- page content -->
+    <div class="page-main-content border-box">
+        <div class="page-main-content-top">
+            
+<header class="header-wrapper">
+
+    <div class="border-box header-content">
+        <div class="left flex-start border-box">
+            
+            <a class="site-name border-box" href="/">
+               狐饼&#39;s Blog
+            </a>
+        </div>
+
+        <div class="right border-box">
+            <div class="pc border-box">
+                <ul class="menu-list border-box">
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/">
+                                
+                                首页
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/archives">
+                                
+                                时间线
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/tags">
+                                
+                                标签
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/categories">
+                                
+                                分类
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/about">
+                                
+                                关于
+                                
+                            </a>
+                            
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="menu-text-color fas search fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile border-box flex-start">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list border-box">
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/">
+                            
+                            首页
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/archives">
+                            
+                            时间线
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/tags">
+                            
+                            标签
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/categories">
+                            
+                            分类
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/about">
+                            
+                            关于
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle border-box">
+
+            <div class="main-content border-box">
+                
+
+                    
+<div class="fade-in-down-animation">
+    <div class="post-page-container border-box">
+        <div class="post-content-container border-box">
+            
+
+            <div class="post-content-bottom border-box">
+                
+                    <div class="post-title">
+                        OverTheWire闯关笔记Bandit篇
+                    </div>
+                
+
+                
+                    <div class="post-header border-box">
+                        
+                            <div class="avatar-box border-box">
+                                <img src="https://s2.loli.net/2023/03/21/6hreGo78basMSvC.png">
+                            </div>
+                        
+                        <div class="info-box">
+                            <div class="author border-box">
+                                <span class="name">狐饼</span>
+                                
+                                    <span class="author-badge">Lv1</span>
+                                
+                            </div>
+                            <div class="meta-info border-box">
+                                
+
+<div class="post-meta-info-container border-box post">
+    <div class="post-meta-info border-box">
+        
+
+        
+            <span class="meta-info-item post-create-date">
+                <i class="icon fa-solid fa-calendar-plus"></i>&nbsp;
+                <span class="datetime">2024-07-01 00:00:00</span>
+            </span>
+
+            
+                <span class="meta-info-item post-update-date">
+                    <i class="icon fa-solid fa-file-pen"></i>&nbsp;
+                    <span class="datetime" data-updated="Wed Jul 17 2024 00:00:00 GMT+0800">2024-07-17 00:00:00</span>
+                </span>
+            
+        
+
+        
+            <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
+                <ul class="post-category-ul">
+                    
+                            <li class="category-item"><a href="/categories/%E5%AD%A6%E4%B9%A0/">学习</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+            <span class="post-tag meta-info-item border-box">
+                <ul class="post-tag-ul">
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/">网络安全</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+        
+            <span class="meta-info-item post-wordcount">
+                <i class="icon fas fa-file-word"></i>&nbsp;<span>2.5k 字</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-min2read">
+                <i class="icon fas fa-clock"></i>&nbsp;<span>10 分钟</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-pv">
+                <i class="icon fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+            </span>
+        
+    </div>
+
+    
+</div>
+
+                            </div>
+                        </div>
+                    </div>
+                
+
+                <div class="post-content keep-markdown-body ">
+                    
+
+                    
+                         <p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://s2.loli.net/2024/07/17/JHwRqVAOukCnN8p.jpg"
+                       
+                 ></p>
+<h1 id="OverTheWire闯关笔记"><a href="#OverTheWire闯关笔记" class="headerlink" title="OverTheWire闯关笔记"></a>OverTheWire闯关笔记</h1><h2 id="前往连接"><a href="#前往连接" class="headerlink" title="前往连接"></a>前往连接</h2><p><a class="link"   target="_blank" rel="noopener" href="https://overthewire.org/wargames/" >OverTheWire: Wargames<i class="fas fa-external-link-alt"></i></a></p>
+<h2 id="Bandit"><a href="#Bandit" class="headerlink" title="Bandit"></a>Bandit</h2><h3 id="0级"><a href="#0级" class="headerlink" title="0级"></a>0级</h3><p>此级别的目标是让您使用 SSH 登录游戏。 您需要连接的主机位于端口 <code>2220</code> 上的<code>bandit.labs.overthewire.org</code>。 用户名是 <code>bandit0</code>，密码是 <code>bandit0</code>。</p>
+<p><strong>利用工具</strong></p>
+<p>ssh</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -p 2220 bandit0@bandit.labs.overthewire.org</span><br></pre></td></tr></table></figure>
+
+<h3 id="1级"><a href="#1级" class="headerlink" title="1级"></a>1级</h3><p>下一级的密码存储在主目录中的名为 <code>readme</code> 的文件中。使用此密码进行记录 使用 SSH 进入 <code>bandit1</code>。每当您找到关卡的密码时， 使用 SSH（在端口 2220 上）登录该关卡并继续游戏。</p>
+<p><strong>利用工具</strong></p>
+<p>ssh</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://raw.githubusercontent.com/HB2333/HB2333.github.io/main/image/image-20240719101127607.png"
+                        alt="image-20240719101127607"
+                 ></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ZjLjTmM6FvvyRnrb2rfNWOZOTa6ip5If</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -p 2220 bandit1@bandit.labs.overthewire.org</span><br></pre></td></tr></table></figure>
+
+<h3 id="2级"><a href="#2级" class="headerlink" title="2级"></a>2级</h3><p>下一级的密码存储在名为 - 的文件中，该文件位于主目录中</p>
+<p><strong>利用工具</strong></p>
+<p>ssh</p>
+<p>难点：特殊字符的文件夹</p>
+<p>请使用 <code>cat ./-</code> 打开</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://raw.githubusercontent.com/HB2333/HB2333.github.io/main/image/image-20240719102316720.png"
+                        alt="image-20240719102316720"
+                 ></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">263JGJPfgU6LtdEvgfWU1XP5yac29mFx</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -p 2220 bandit2@bandit.labs.overthewire.org</span><br></pre></td></tr></table></figure>
+
+<h3 id="3级"><a href="#3级" class="headerlink" title="3级"></a>3级</h3><p>下一级的密码存储在名为空格的文件中 在此文件名中位于主目录中</p>
+<p><strong>利用工具</strong></p>
+<p>ssh</p>
+<p>难点：特殊字符的文件夹</p>
+<p>请使用 <code>cat &quot;&quot;</code> 打开</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://raw.githubusercontent.com/HB2333/HB2333.github.io/main/image/image-20240719102939147.png"
+                        alt="image-20240719102939147"
+                 ></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">MNk8KNH3Usiio41PRUEoDFPqfxLPlSmx</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -p 2220 bandit3@bandit.labs.overthewire.org</span><br></pre></td></tr></table></figure>
+
+<h3 id="4级"><a href="#4级" class="headerlink" title="4级"></a>4级</h3><p>下一级的密码存储在 inhere 目录的隐藏文件中。</p>
+<p><strong>利用工具</strong></p>
+<p>ssh</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://raw.githubusercontent.com/HB2333/HB2333.github.io/main/image/image-20240719103214020.png"
+                        alt="image-20240719103214020"
+                 ></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">2WmrDFRmJIq3IPxneAaMGhap0pFhF3NJ</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -p 2220 bandit4@bandit.labs.overthewire.org</span><br></pre></td></tr></table></figure>
+
+<h3 id="5级"><a href="#5级" class="headerlink" title="5级"></a>5级</h3><p>下一级的密码存储在唯一人类可读的密码中 <strong>文件</strong>。提示：如果您的终端混乱 向上，尝试 <strong>“重置”</strong> 命令。</p>
+<p>利用工具</p>
+<p>ssh</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://raw.githubusercontent.com/HB2333/HB2333.github.io/main/image/image-20240719103543769.png"
+                        alt="image-20240719103543769"
+                 ></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">4oQYVPkxZOOEOO5pTW81FB8j8lxXGUQw</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -p 2220 bandit5@bandit.labs.overthewire.org</span><br></pre></td></tr></table></figure>
+
+<h3 id="6级"><a href="#6级" class="headerlink" title="6级"></a>6级</h3><p>下一级的密码存储在以下某处的文件中 inhere 目录，并具有以下所有属性：</p>
+<ul>
+<li>人类可读</li>
+<li>大小为 1033 字节</li>
+<li>不可执行</li>
+</ul>
+<p><strong>利用工具</strong></p>
+<p>ssh</p>
+<p>难点：在大量内容内查询文件</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://raw.githubusercontent.com/HB2333/HB2333.github.io/main/image/image-20240719104236295.png"
+                        alt="image-20240719104236295"
+                 ></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find . -type f -readable ! -executable -size 1033c</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>类型为普通文件（<code>-type f</code>）</li>
+<li>可读（<code>-readable</code>）</li>
+<li>不可执行（<code>! -executable</code>）</li>
+<li>大小为 1033 字节（<code>-size 1033c</code>）</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">HWasnPhtq9AVKe0dmk45nxy20cvUa6EG</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -p 2220 bandit6@bandit.labs.overthewire.org</span><br></pre></td></tr></table></figure>
+
+<h3 id="7级"><a href="#7级" class="headerlink" title="7级"></a>7级</h3><p>下一关的密码存储<strong>在 server 的某个地方</strong>，并具有以下所有属性：</p>
+<ul>
+<li>由用户 Bandit7 拥有</li>
+<li>由 Group Bandit6 拥有6</li>
+<li>大小为 33 字节</li>
+</ul>
+<p><strong>利用工具</strong></p>
+<p>ssh</p>
+<p>难点：<code>find</code>指令的运用</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find / -user bandit7 -group bandit6 -size 33c 2&gt;/dev/null</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>/</code>：从根目录开始搜索。</li>
+<li><code>-user bandit7</code>：查找所有者是 <code>bandit7</code> 的文件。</li>
+<li><code>-group bandit6</code>：查找组是 <code>bandit6</code> 的文件。</li>
+<li><code>-size 33c</code>：查找文件大小正好是 33 字节的文件（<code>c</code> 表示字节）。</li>
+<li><code>2&gt;/dev/null</code>：将错误消息（例如权限被拒绝的错误）重定向到 <code>/dev/null</code> 以保持输出干净。</li>
+</ul>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://raw.githubusercontent.com/HB2333/HB2333.github.io/main/image/image-20240720095814627.png"
+                        alt="image-20240720095814627"
+                 ></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">morbNTDkSW6jIlUc0ymOdMaLnOlFVAaj</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -p 2220 bandit7@bandit.labs.overthewire.org</span><br></pre></td></tr></table></figure>
+
+<h3 id="8级"><a href="#8级" class="headerlink" title="8级"></a>8级</h3><p>The password for the next level is stored in the file <code>data.txt</code> next to the word <code>millionth</code></p>
+<p>下一级的密码存储在<code>data.txt的百万分之一</code>单词旁边的文件</p>
+<p>利用工具</p>
+<p>ssh</p>
+<ul>
+<li><code>grep</code>: 搜索文本文件中匹配指定模式的行。</li>
+<li><code>sort</code>: 对文本文件的行进行排序。</li>
+<li><code>uniq</code>: 报告或省略重复的行。</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grep &quot;millionth&quot; data.txt</span><br></pre></td></tr></table></figure>
+
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://raw.githubusercontent.com/HB2333/HB2333.github.io/main/image/image-20240720102924792.png"
+                        alt="image-20240720102924792"
+                 ></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dfwvzFQi4mU0wfNbFOe9RoWskMLg7eEc</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -p 2220 bandit8@bandit.labs.overthewire.org</span><br></pre></td></tr></table></figure>
+
+<h3 id="9级"><a href="#9级" class="headerlink" title="9级"></a>9级</h3><p>下一级的密码存储在文件<code>data.txt</code>中，并且是唯一只出现一次的文本行</p>
+<p><strong>利用工具</strong></p>
+<p>ssh</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sort data.txt | uniq -u</span><br></pre></td></tr></table></figure>
+
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://raw.githubusercontent.com/HB2333/HB2333.github.io/main/image/image-20240720103229201.png"
+                        alt="image-20240720103229201"
+                 ></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">4CKMh1JI91bUIZZPXDqGanal4xvAg0JM</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -p 2220 bandit9@bandit.labs.overthewire.org</span><br></pre></td></tr></table></figure>
+
+<h3 id="10级"><a href="#10级" class="headerlink" title="10级"></a>10级</h3><p>下一级的密码存储在文件中，data.txt在为数不多的人类可读字符串之一中，前面有几个“&#x3D;” 字符。</p>
+<p>利用工具</p>
+<p>ssh</p>
+<ul>
+<li>使用 <code>strings</code> 命令提取人类可读字符串</li>
+<li>使用 <code>grep</code> 命令过滤包含“&#x3D;”字符的字符串</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">strings data.txt | grep &quot;=&quot;</span><br></pre></td></tr></table></figure>
+
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://raw.githubusercontent.com/HB2333/HB2333.github.io/main/image/image-20240720103918422.png"
+                        alt="image-20240720103918422"
+                 ></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">FGUW5ilLVJrxX9kMYMmlN4MgbpfMiqey</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -p 2220 bandit10@bandit.labs.overthewire.org</span><br></pre></td></tr></table></figure>
+
+<h3 id="11级"><a href="#11级" class="headerlink" title="11级"></a>11级</h3><p>下一级的密码存储在文件data.txt中， 其中包含 base64 编码数据</p>
+<p><strong>利用工具</strong></p>
+<p>ssh</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat data.txt | base64 --decode</span><br></pre></td></tr></table></figure>
+
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://raw.githubusercontent.com/HB2333/HB2333.github.io/main/image/image-20240720104237658.png"
+                        alt="image-20240720104237658"
+                 ></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dtR173fZKb0RRsDFSGsg2RWnpNVj3qRr</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -p 2220 bandit11@bandit.labs.overthewire.org</span><br></pre></td></tr></table></figure>
+
+<h3 id="12级"><a href="#12级" class="headerlink" title="12级"></a>12级</h3><p>下一级的密码存储在文件data.txt中， 其中所有小写 （a-z） 和大写 （A-Z） 字母都为 旋转 13 个位置</p>
+<p>利用工具</p>
+<p>ssh</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat data.txt | tr &#x27;A-Za-z&#x27; &#x27;N-ZA-Mn-za-m&#x27;</span><br></pre></td></tr></table></figure>
+
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://raw.githubusercontent.com/HB2333/HB2333.github.io/main/image/image-20240720104647769.png"
+                        alt="image-20240720104647769"
+                 ></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">7x16WNeHIi5YkIhWsfFIqoognUTyj9Q4</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -p 2220 bandit12@bandit.labs.overthewire.org</span><br></pre></td></tr></table></figure>
+
+<h3 id="13级"><a href="#13级" class="headerlink" title="13级"></a>13级</h3><p>下一级的密码存储在文件data.txt中， 这是重复压缩的文件的十六进制转储。 对于此级别，在 &#x2F;tmp 下创建一个目录可能很有用 你可以工作。使用难以猜测的目录名称的 mkdir。 或者更好的是，使用命令“mktemp -d”。 然后使用 cp 复制数据文件，并使用 mv 重命名它</p>
+<p><strong>利用工具</strong></p>
+<p>ssh</p>
+<p>使用 <code>mktemp</code> 创建一个难以猜测的临时目录</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tmp_dir=$(mktemp -d) </span><br><span class="line">echo &quot;Temporary directory created: $tmp_dir&quot;</span><br></pre></td></tr></table></figure>
+
+<p>将 <code>data.txt</code> 文件复制到临时目录，并重命名。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cp data.txt &quot;$tmp_dir/data.txt&quot;</span><br><span class="line">cd &quot;$tmp_dir&quot;</span><br></pre></td></tr></table></figure>
+
+<p> 将16进制转为2进制</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat data.txt | xxd -r &gt; data</span><br></pre></td></tr></table></figure>
+
+<p>用 <code>file</code> 来查看文件属性，再用<code>gzip -d</code>、<code>bzip2 -d</code>、<code>tar -xf</code>解压</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://raw.githubusercontent.com/HB2333/HB2333.github.io/main/image/image-20240720112438428.png"
+                        alt="image-20240720112438428"
+                 ></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">FO5dwFsc0cbaIiH0h8J2eUks2vdTDwAn</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -p 2220 bandit13@bandit.labs.overthewire.org</span><br></pre></td></tr></table></figure>
+
+<h3 id="14级"><a href="#14级" class="headerlink" title="14级"></a>14级</h3><p>下一级的密码存储在 &#x2F;etc&#x2F;bandit_pass&#x2F;bandit14 中，只能由用户读取 bandit14 。对于此级别，您不会获得下一个密码，但您 获取可用于登录下一关的私有 SSH 密钥。</p>
+<p>难点：要先更改权限700</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod 700 sshkey.private</span><br></pre></td></tr></table></figure>
+
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://raw.githubusercontent.com/HB2333/HB2333.github.io/main/image/image-20240720112941997.png"
+                        alt="image-20240720112941997"
+                 ></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">-----BEGIN RSA PRIVATE KEY-----</span><br><span class="line">MIIEpAIBAAKCAQEAxkkOE83W2cOT7IWhFc9aPaaQmQDdgzuXCv+ppZHa++buSkN+</span><br><span class="line">gg0tcr7Fw8NLGa5+Uzec2rEg0WmeevB13AIoYp0MZyETq46t+jk9puNwZwIt9XgB</span><br><span class="line">ZufGtZEwWbFWw/vVLNwOXBe4UWStGRWzgPpEeSv5Tb1VjLZIBdGphTIK22Amz6Zb</span><br><span class="line">ThMsiMnyJafEwJ/T8PQO3myS91vUHEuoOMAzoUID4kN0MEZ3+XahyK0HJVq68KsV</span><br><span class="line">ObefXG1vvA3GAJ29kxJaqvRfgYnqZryWN7w3CHjNU4c/2Jkp+n8L0SnxaNA+WYA7</span><br><span class="line">jiPyTF0is8uzMlYQ4l1Lzh/8/MpvhCQF8r22dwIDAQABAoIBAQC6dWBjhyEOzjeA</span><br><span class="line">J3j/RWmap9M5zfJ/wb2bfidNpwbB8rsJ4sZIDZQ7XuIh4LfygoAQSS+bBw3RXvzE</span><br><span class="line">pvJt3SmU8hIDuLsCjL1VnBY5pY7Bju8g8aR/3FyjyNAqx/TLfzlLYfOu7i9Jet67</span><br><span class="line">xAh0tONG/u8FB5I3LAI2Vp6OviwvdWeC4nOxCthldpuPKNLA8rmMMVRTKQ+7T2VS</span><br><span class="line">nXmwYckKUcUgzoVSpiNZaS0zUDypdpy2+tRH3MQa5kqN1YKjvF8RC47woOYCktsD</span><br><span class="line">o3FFpGNFec9Taa3Msy+DfQQhHKZFKIL3bJDONtmrVvtYK40/yeU4aZ/HA2DQzwhe</span><br><span class="line">ol1AfiEhAoGBAOnVjosBkm7sblK+n4IEwPxs8sOmhPnTDUy5WGrpSCrXOmsVIBUf</span><br><span class="line">laL3ZGLx3xCIwtCnEucB9DvN2HZkupc/h6hTKUYLqXuyLD8njTrbRhLgbC9QrKrS</span><br><span class="line">M1F2fSTxVqPtZDlDMwjNR04xHA/fKh8bXXyTMqOHNJTHHNhbh3McdURjAoGBANkU</span><br><span class="line">1hqfnw7+aXncJ9bjysr1ZWbqOE5Nd8AFgfwaKuGTTVX2NsUQnCMWdOp+wFak40JH</span><br><span class="line">PKWkJNdBG+ex0H9JNQsTK3X5PBMAS8AfX0GrKeuwKWA6erytVTqjOfLYcdp5+z9s</span><br><span class="line">8DtVCxDuVsM+i4X8UqIGOlvGbtKEVokHPFXP1q/dAoGAcHg5YX7WEehCgCYTzpO+</span><br><span class="line">xysX8ScM2qS6xuZ3MqUWAxUWkh7NGZvhe0sGy9iOdANzwKw7mUUFViaCMR/t54W1</span><br><span class="line">GC83sOs3D7n5Mj8x3NdO8xFit7dT9a245TvaoYQ7KgmqpSg/ScKCw4c3eiLava+J</span><br><span class="line">3btnJeSIU+8ZXq9XjPRpKwUCgYA7z6LiOQKxNeXH3qHXcnHok855maUj5fJNpPbY</span><br><span class="line">iDkyZ8ySF8GlcFsky8Yw6fWCqfG3zDrohJ5l9JmEsBh7SadkwsZhvecQcS9t4vby</span><br><span class="line">9/8X4jS0P8ibfcKS4nBP+dT81kkkg5Z5MohXBORA7VWx+ACohcDEkprsQ+w32xeD</span><br><span class="line">qT1EvQKBgQDKm8ws2ByvSUVs9GjTilCajFqLJ0eVYzRPaY6f++Gv/UVfAPV4c+S0</span><br><span class="line">kAWpXbv5tbkkzbS0eaLPTKgLzavXtQoTtKwrjpolHKIHUz6Wu+n4abfAIRFubOdN</span><br><span class="line">/+aLoRQ0yBDRbdXMsZN/jvY44eM+xRLdRVyMmdPtP8belRi2E2aEzA==</span><br><span class="line">-----END RSA PRIVATE KEY-----</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -i sshkey.private bandit14@bandit.labs.overthewire.org -p 2220</span><br></pre></td></tr></table></figure>
+
+<h3 id="15级"><a href="#15级" class="headerlink" title="15级"></a>15级</h3><p>The password for the next level can be retrieved by submitting the password of the current level to port 30000 on localhost.</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://raw.githubusercontent.com/HB2333/HB2333.github.io/main/image/image-20240720161548980.png"
+                        alt="image-20240720161548980"
+                 ></p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://raw.githubusercontent.com/HB2333/HB2333.github.io/main/image/image-20240720161600680.png"
+                        alt="image-20240720161600680"
+                 ></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">MU4VWeTyJk8ROof1qqmcBPaLh7lDCPvS</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -p 2220 bandit14@bandit.labs.overthewire.org</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">8xCjnmgoKbGLhHFAZlGE5Tmu4M2tKJQo</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -p 2220 bandit15@bandit.labs.overthewire.org</span><br></pre></td></tr></table></figure>
+
+<h3 id="16级"><a href="#16级" class="headerlink" title="16级"></a>16级</h3><p>可以通过提交 当前级别的密码到 localhost 上的端口 30001 使用 SSL 加密。</p>
+<ul>
+<li>openssl s_client是使用 SSL&#x2F;TLS 连接到服务器的简单客户端的实现。</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openssl s_client -connect localhost:30001</span><br></pre></td></tr></table></figure>
+
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://raw.githubusercontent.com/HB2333/HB2333.github.io/main/image/image-20240720161951361.png"
+                        alt="image-20240720161951361"
+                 ></p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://raw.githubusercontent.com/HB2333/HB2333.github.io/main/image/image-20240720162031292.png"
+                        alt="image-20240720162031292"
+                 ></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kSkvUpMQ7lBYyCM4GBPvCvT1BfWRy0Dx</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -p 2220 bandit16@bandit.labs.overthewire.org</span><br></pre></td></tr></table></figure>
+
+<h3 id="17级"><a href="#17级" class="headerlink" title="17级"></a>17级</h3><p>可以通过提交 当前级别的密码到 localhost 上的端口，在 31000 到 32000。首先找出这些端口中哪些有服务器 倾听他们。然后找出哪些说SSL，哪些说SSL 不要。只有 1 台服务器将提供下一个凭据，即 其他人只会将您发送给它的任何东西发回给您。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nmap -p 31000-32000 -sV localhost</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>31046&#x2F;tcp open  echo</li>
+<li>31518&#x2F;tcp open  ssl&#x2F;echo</li>
+<li>31691&#x2F;tcp open  echo</li>
+<li>31790&#x2F;tcp open  ssl&#x2F;unknown</li>
+<li>31960&#x2F;tcp open  echo</li>
+</ul>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://raw.githubusercontent.com/HB2333/HB2333.github.io/main/image/image-20240720164036288.png"
+                        alt="image-20240720164036288"
+                 ></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo &quot;kSkvUpMQ7lBYyCM4GBPvCvT1BfWRy0Dx&quot; | openssl s_client -connect localhost:31790 -ign_eof</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kSkvUpMQ7lBYyCM4GBPvCvT1BfWRy0Dx</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">-----BEGIN RSA PRIVATE KEY-----</span><br><span class="line">MIIEogIBAAKCAQEAvmOkuifmMg6HL2YPIOjon6iWfbp7c3jx34YkYWqUH57SUdyJ</span><br><span class="line">imZzeyGC0gtZPGujUSxiJSWI/oTqexh+cAMTSMlOJf7+BrJObArnxd9Y7YT2bRPQ</span><br><span class="line">Ja6Lzb558YW3FZl87ORiO+rW4LCDCNd2lUvLE/GL2GWyuKN0K5iCd5TbtJzEkQTu</span><br><span class="line">DSt2mcNn4rhAL+JFr56o4T6z8WWAW18BR6yGrMq7Q/kALHYW3OekePQAzL0VUYbW</span><br><span class="line">JGTi65CxbCnzc/w4+mqQyvmzpWtMAzJTzAzQxNbkR2MBGySxDLrjg0LWN6sK7wNX</span><br><span class="line">x0YVztz/zbIkPjfkU1jHS+9EbVNj+D1XFOJuaQIDAQABAoIBABagpxpM1aoLWfvD</span><br><span class="line">KHcj10nqcoBc4oE11aFYQwik7xfW+24pRNuDE6SFthOar69jp5RlLwD1NhPx3iBl</span><br><span class="line">J9nOM8OJ0VToum43UOS8YxF8WwhXriYGnc1sskbwpXOUDc9uX4+UESzH22P29ovd</span><br><span class="line">d8WErY0gPxun8pbJLmxkAtWNhpMvfe0050vk9TL5wqbu9AlbssgTcCXkMQnPw9nC</span><br><span class="line">YNN6DDP2lbcBrvgT9YCNL6C+ZKufD52yOQ9qOkwFTEQpjtF4uNtJom+asvlpmS8A</span><br><span class="line">vLY9r60wYSvmZhNqBUrj7lyCtXMIu1kkd4w7F77k+DjHoAXyxcUp1DGL51sOmama</span><br><span class="line">+TOWWgECgYEA8JtPxP0GRJ+IQkX262jM3dEIkza8ky5moIwUqYdsx0NxHgRRhORT</span><br><span class="line">8c8hAuRBb2G82so8vUHk/fur85OEfc9TncnCY2crpoqsghifKLxrLgtT+qDpfZnx</span><br><span class="line">SatLdt8GfQ85yA7hnWWJ2MxF3NaeSDm75Lsm+tBbAiyc9P2jGRNtMSkCgYEAypHd</span><br><span class="line">HCctNi/FwjulhttFx/rHYKhLidZDFYeiE/v45bN4yFm8x7R/b0iE7KaszX+Exdvt</span><br><span class="line">SghaTdcG0Knyw1bpJVyusavPzpaJMjdJ6tcFhVAbAjm7enCIvGCSx+X3l5SiWg0A</span><br><span class="line">R57hJglezIiVjv3aGwHwvlZvtszK6zV6oXFAu0ECgYAbjo46T4hyP5tJi93V5HDi</span><br><span class="line">Ttiek7xRVxUl+iU7rWkGAXFpMLFteQEsRr7PJ/lemmEY5eTDAFMLy9FL2m9oQWCg</span><br><span class="line">R8VdwSk8r9FGLS+9aKcV5PI/WEKlwgXinB3OhYimtiG2Cg5JCqIZFHxD6MjEGOiu</span><br><span class="line">L8ktHMPvodBwNsSBULpG0QKBgBAplTfC1HOnWiMGOU3KPwYWt0O6CdTkmJOmL8Ni</span><br><span class="line">blh9elyZ9FsGxsgtRBXRsqXuz7wtsQAgLHxbdLq/ZJQ7YfzOKU4ZxEnabvXnvWkU</span><br><span class="line">YOdjHdSOoKvDQNWu6ucyLRAWFuISeXw9a/9p7ftpxm0TSgyvmfLF2MIAEwyzRqaM</span><br><span class="line">77pBAoGAMmjmIJdjp+Ez8duyn3ieo36yrttF5NSsJLAbxFpdlc1gvtGCWW+9Cq0b</span><br><span class="line">dxviW8+TFVEBl1O4f7HVm6EpTscdDxU+bCXWkfjuRb7Dy9GOtt9JPsX8MBTakzh3</span><br><span class="line">vBgsyi/sN3RqRBcGU40fOoZyfAMT8s1m/uYv52O6IgeuZ/ujbjY=</span><br><span class="line">-----END RSA PRIVATE KEY-----</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -i sshkey.private bandit17@bandit.labs.overthewire.org -p 2220</span><br></pre></td></tr></table></figure>
+
+<h3 id="18级"><a href="#18级" class="headerlink" title="18级"></a>18级</h3><p>主目录中有 2 个文件：<strong>passwords.old</strong> 和 <strong>passwords.new</strong>。下一级的密码位于 <strong>passwords.new</strong> 中，并且是 <strong>passwords.old</strong> 和 <strong>passwords.new</strong> 之间唯一已更改的行</p>
+<p><strong>注意：如果您已经解决了此级别并在尝试时看到“再见！ 要登录 Bandit18，这与下一个级别 Bandit19 有关</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">EReVavePLFHtFlFsjn3hyzMlvSuSAcRD</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -p 2220 bandit17@bandit.labs.overthewire.org</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">diff passwords.old passwords.new</span><br></pre></td></tr></table></figure>
+
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://raw.githubusercontent.com/HB2333/HB2333.github.io/main/image/image-20240720172236033.png"
+                        alt="image-20240720172236033"
+                 ></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bSrACvJvvBSxEM2SGsV5sn09vc3xgqyp</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">x2gLTTjFwMOhQ8oWNbMN362QKxfRqGlO</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -p 2220 bandit18@bandit.labs.overthewire.org</span><br></pre></td></tr></table></figure>
+
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://raw.githubusercontent.com/HB2333/HB2333.github.io/main/image/image-20240720172447599.png"
+                        alt="image-20240720172447599"
+                 ></p>
+<h3 id="19级"><a href="#19级" class="headerlink" title="19级"></a>19级</h3><p>下一级的密码存储在文件自述文件中 主目录。不幸的是，有人修改了 .bashrc 以在您使用 SSH 登录时将您注销。</p>
+<p>我们不是使用 SSH 登录计算机，而是通过 SSH 执行命令。首先，我们用来确保自述文件在文件夹中，然后我们可以用来读取它。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$ ssh bandit18@bandit.labs.overthewire.org -p 2220 ls         </span><br><span class="line">This is a OverTheWire game server. More information on http://www.overthewire.org/wargames</span><br><span class="line"></span><br><span class="line">bandit18@bandit.labs.overthewire.org&#x27;s password: </span><br><span class="line">readme</span><br><span class="line"></span><br><span class="line">$ ssh bandit18@bandit.labs.overthewire.org -p 2220 cat readme </span><br><span class="line">This is a OverTheWire game server. More information on http://www.overthewire.org/wargames</span><br><span class="line"></span><br><span class="line">bandit18@bandit.labs.overthewire.org&#x27;s password: </span><br><span class="line">cGWpMaKXVwDUNgPAVJbWYuGHVn9zl3j8</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cGWpMaKXVwDUNgPAVJbWYuGHVn9zl3j8</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -p 2220 bandit19@bandit.labs.overthewire.org</span><br></pre></td></tr></table></figure>
+
+<h3 id="20级"><a href="#20级" class="headerlink" title="20级"></a>20级</h3><p>要访问下一级别，您应该使用 setuid 二进制文件 在主目录中。在没有参数的情况下执行它，以了解如何 使用它。此级别的密码可以在通常的 放置 （&#x2F;etc&#x2F;bandit_pass），在您使用 setuid 二进制文件之后。</p>
+<p>首先，我们检查 <code>setuid</code> 二进制文件的所有者是谁：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ls -la</span><br></pre></td></tr></table></figure>
+
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://raw.githubusercontent.com/HB2333/HB2333.github.io/main/image/image-20240720180047511.png"
+                        alt="image-20240720180047511"
+                 ></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./bandit20-do cat /etc/bandit_pass/bandit20</span><br></pre></td></tr></table></figure>
+
+<p>在本例中，所有者是 badit20，组是 bandit19，其中 ‘-rwsr-x—‘ 表示用户 bandit19 可以执行二进制文件，但二进制文件以用户 bandit20 身份执行。</p>
+<p>执行二进制文件表示它只是以另一个用户的身份执行另一个命令（如前所述，这个用户是 bandit20）。这意味着我们可以访问 bandit20 用户密码文件，该文件只能由用户 bandit20 读取。</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://raw.githubusercontent.com/HB2333/HB2333.github.io/main/image/image-20240720175823912.png"
+                        alt="image-20240720175823912"
+                 ></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">0qXahG8ZjOVMN9Ghs7iOWsCfZyXOUbYO</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -p 2220 bandit20@bandit.labs.overthewire.org</span><br></pre></td></tr></table></figure>
+
+<h3 id="21级"><a href="#21级" class="headerlink" title="21级"></a>21级</h3><p>主目录中有一个 setuid 二进制文件，它执行以下操作：它在指定为命令行参数的端口上与 localhost 建立连接。然后，它从连接中读取一行文本，并将其与上一级 （bandit20） 中的密码进行比较。如果密码正确，它将传输下一关（bandit21）的密码。</p>
+<ul>
+<li>使用“netcat”，我们可以在服务器模式下创建一个连接 - 该连接侦听入站连接。为了让 netcat 发送密码，我使用 echo 并将其通过管道传输到 netcat。</li>
+<li>使用端口 1234 运行 setuid 二进制文件意味着它将连接到我们的 netcat 服务器，接收输入的密码并发回下一个密码。</li>
+</ul>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://s2.loli.net/2024/07/26/1ZRyYj5JBakD3MU.png"
+                        alt="image-20240722103620493"
+                 ></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">EeoULMCra2q0dSkYj561DX7s1CpBuOBt</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -p 2220 bandit21@bandit.labs.overthewire.org</span><br></pre></td></tr></table></figure>
+
+<h3 id="22级"><a href="#22级" class="headerlink" title="22级"></a>22级</h3><p>程序从基于时间的作业调度程序 cron 定期自动运行。在 &#x2F;etc&#x2F;cron.d&#x2F; 中查找配置，并查看正在执行的命令。</p>
+<ul>
+<li><p>首先，我们看一下“&#x2F;etc&#x2F;cron.d”文件夹中的内容。具体来说，对于这个级别，我查看了 cronjob ‘cronjob_bandit22’。</p>
+</li>
+<li><p>此 cronjob 以 bandit22 用户身份运行文件。五颗星表示它每分钟都在运行，每天都在运行。要知道到底执行了什么，我们需要看一下 bash 文件。&#x2F;usr&#x2F;bin&#x2F;cronjob_bandit22.sh</p>
+</li>
+<li><p>此文件在“tmp”文件夹中创建一个文件，并向所有人授予读取权限（由最后 4 个表示）。然后，它将 bandit22 密码文件的输入复制到新创建的文件中。</p>
+</li>
+<li><p>因此，下一级的密码在此创建的文件中：</p>
+</li>
+</ul>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://s2.loli.net/2024/07/26/PjxcnMLeWbNRt2E.png"
+                        alt="image-20240722104417005"
+                 ></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tRae0UfB9v0UzbCdn9cY0gQnds9GF58Q</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -p 2220 bandit22@bandit.labs.overthewire.org</span><br></pre></td></tr></table></figure>
+
+<h3 id="23级"><a href="#23级" class="headerlink" title="23级"></a>23级</h3>
+                    
+                </div>
+
+                
+                        
+<div class="post-copyright-info-container border-box">
+    <div class="copyright-info-content border-box">
+        <div class="copyright-info-top border-box">
+            <div class="copyright-post-title border-box text-ellipsis">
+                OverTheWire闯关笔记Bandit篇
+            </div>
+
+            <div class="copyright-post-link border-box text-ellipsis">
+                2024/07/01/OverTheWireBandit/
+            </div>
+        </div>
+
+        <div class="copyright-info-bottom border-box">
+            <div class="copyright-post-author bottom-item">
+                <div class="type">
+                    作者
+                </div>
+                <div class="content">狐饼</div>
+            </div>
+
+            <div class="post-time bottom-item">
+                <div class="type">
+                    发布于
+                </div>
+                <div class="content">2024-07-01 00:00</div>
+            </div>
+
+
+            <div class="post-license bottom-item">
+                <div class="type">
+                    许可
+                </div>
+                <div class="content tooltip" data-tooltip-content="CC BY-NC-SA 4.0">
+                    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hans" target="_blank">
+                        
+                            <i class="fa-brands fa-creative-commons"></i>
+                            <i class="fa-brands fa-creative-commons-by"></i>
+                            <i class="fa-brands fa-creative-commons-nc"></i>
+                            <i class="fa-brands fa-creative-commons-sa"></i>
+                        
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <i class="copyright-bg fa-solid fa-copyright"></i>
+    </div>
+    <div class="copy-copyright-info flex-center tooltip" data-tooltip-content="复制版权信息" data-tooltip-offset-y="-2px">
+        <i class="fa-solid fa-copy"></i>
+    </div>
+</div>
+
+                
+
+                <div class="post-bottom-tags-and-share border-box">
+                    <div>
+                        
+                            <ul class="post-tags-box border-box">
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/">网络安全</a>
+                                    </li>
+                                
+                            </ul>
+                        
+                    </div>
+                    <div>
+                        
+                            <div class="post-share-container border-box">
+    <ul class="share-list-wrap border-box">
+        <li class="qq share-item border-box flex-center tooltip"
+            data-tooltip-content="分享到 QQ"
+        >
+            <i class="fa-brands fa-qq"></i>
+        </li>
+        <li class="wechat share-item border-box flex-center tooltip tooltip-img"
+            data-tooltip-content="分享到微信"
+            data-tooltip-img-tip="微信扫一扫"
+            data-tooltip-img-style="background-color: #fff; top: -10px; padding: 0.6rem 0.6rem 0.1rem 0.6rem;"
+        >
+            <i class="fa-brands fa-weixin"></i>
+        </li>
+        <li class="weibo share-item border-box flex-center tooltip"
+            data-tooltip-content="分享到微博"
+        >
+            <i class="fa-brands fa-weibo"></i>
+        </li>
+    </ul>
+</div>
+
+                        
+                    </div>
+                </div>
+
+                
+
+                
+                    <div class="post-nav border-box">
+                        
+                            <div class="prev-post">
+                                <a class="prev"
+                                   rel="prev"
+                                   href="/2024/09/29/QuestBSReplay/"
+                                   title="Quest 2 一体机版 beatsaber 节奏光剑 回放+添加模型"
+                                >
+                                    <span class="left arrow-icon flex-center">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </span>
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">Quest 2 一体机版 beatsaber 节奏光剑 回放+添加模型</span>
+                                        <span class="post-nav-item">上一篇</span>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                        
+                    </div>
+                
+
+                
+                    
+
+
+
+
+
+
+                
+            </div>
+        </div>
+
+        
+            <div class="pc-post-toc right-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#OverTheWire%E9%97%AF%E5%85%B3%E7%AC%94%E8%AE%B0"><span class="nav-number">1.</span> <span class="nav-text">OverTheWire闯关笔记</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E5%BE%80%E8%BF%9E%E6%8E%A5"><span class="nav-number">1.1.</span> <span class="nav-text">前往连接</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Bandit"><span class="nav-number">1.2.</span> <span class="nav-text">Bandit</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#0%E7%BA%A7"><span class="nav-number">1.2.1.</span> <span class="nav-text">0级</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1%E7%BA%A7"><span class="nav-number">1.2.2.</span> <span class="nav-text">1级</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2%E7%BA%A7"><span class="nav-number">1.2.3.</span> <span class="nav-text">2级</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3%E7%BA%A7"><span class="nav-number">1.2.4.</span> <span class="nav-text">3级</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4%E7%BA%A7"><span class="nav-number">1.2.5.</span> <span class="nav-text">4级</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5%E7%BA%A7"><span class="nav-number">1.2.6.</span> <span class="nav-text">5级</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6%E7%BA%A7"><span class="nav-number">1.2.7.</span> <span class="nav-text">6级</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7%E7%BA%A7"><span class="nav-number">1.2.8.</span> <span class="nav-text">7级</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8%E7%BA%A7"><span class="nav-number">1.2.9.</span> <span class="nav-text">8级</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9%E7%BA%A7"><span class="nav-number">1.2.10.</span> <span class="nav-text">9级</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10%E7%BA%A7"><span class="nav-number">1.2.11.</span> <span class="nav-text">10级</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#11%E7%BA%A7"><span class="nav-number">1.2.12.</span> <span class="nav-text">11级</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#12%E7%BA%A7"><span class="nav-number">1.2.13.</span> <span class="nav-text">12级</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#13%E7%BA%A7"><span class="nav-number">1.2.14.</span> <span class="nav-text">13级</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#14%E7%BA%A7"><span class="nav-number">1.2.15.</span> <span class="nav-text">14级</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#15%E7%BA%A7"><span class="nav-number">1.2.16.</span> <span class="nav-text">15级</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#16%E7%BA%A7"><span class="nav-number">1.2.17.</span> <span class="nav-text">16级</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#17%E7%BA%A7"><span class="nav-number">1.2.18.</span> <span class="nav-text">17级</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#18%E7%BA%A7"><span class="nav-number">1.2.19.</span> <span class="nav-text">18级</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#19%E7%BA%A7"><span class="nav-number">1.2.20.</span> <span class="nav-text">19级</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#20%E7%BA%A7"><span class="nav-number">1.2.21.</span> <span class="nav-text">20级</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#21%E7%BA%A7"><span class="nav-number">1.2.22.</span> <span class="nav-text">21级</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#22%E7%BA%A7"><span class="nav-number">1.2.23.</span> <span class="nav-text">22级</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#23%E7%BA%A7"><span class="nav-number">1.2.24.</span> <span class="nav-text">23级</span></a></li></ol></li></ol></li></ol>
+    </div>
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+        </div>
+
+        <div class="page-main-content-bottom border-box">
+            
+<footer class="footer border-box">
+    <div class="copyright-info info-item">
+    &copy;&nbsp;<span>2022</span>&nbsp;-&nbsp;2025
+    
+            &nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;&nbsp;<a href="/">狐饼</a>
+        
+    </div>
+
+    <div class="theme-info info-item">
+        由&nbsp;<a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;驱动&nbsp;&&nbsp;主题&nbsp;<a class="keep-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep</a>
+    </div>
+
+    
+        
+        <div class="deploy-info info-item">
+            
+            本站由 <span class="tooltip" data-tooltip-content="Vercel"><img src="/images/brands/vercel.png"></span> 提供部署服务
+            
+        </div>
+    
+
+    
+        <div class="count-info info-item">
+            
+                <span class="count-item border-box word">
+                    <span class="item-type border-box">总字数</span>
+                    <span class="item-value border-box word">6.2k</span>
+                </span>
+            
+
+            
+                <span class="count-item border-box uv">
+                    <span class="item-type border-box">访客数</span>
+                    <span class="item-value border-box uv" id="busuanzi_value_site_uv"></span>
+                </span>
+            
+
+            
+                <span class="count-item border-box pv">
+                    <span class="item-type border-box">访问量</span>
+                    <span class="item-value border-box pv" id="busuanzi_value_site_pv"></span>
+                </span>
+            
+        </div>
+    
+
+    
+</footer>
+
+        </div>
+    </div>
+
+    <!-- post tools -->
+    
+        <div class="post-tools right-toc">
+            <div class="post-tools-container border-box">
+    <ul class="post-tools-list border-box">
+        <!-- PC encrypt again -->
+        
+
+        <!-- PC TOC show toggle -->
+        
+            <li class="tools-item flex-center toggle-show-toc">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        <!-- PC go comment -->
+        
+
+        <!-- PC full screen -->
+        <li class="tools-item flex-center full-screen">
+            <i class="fa-solid fa-expand"></i>
+        </li>
+    </ul>
+</div>
+
+        </div>
+    
+
+    <!-- side tools -->
+    <div class="side-tools">
+        <div class="side-tools-container border-box ">
+    <ul class="side-tools-list side-tools-show-handle border-box">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <!-- toggle mode -->
+        
+            <li class="tools-item tool-toggle-theme-mode flex-center">
+                <i class="fas fa-moon"></i>
+            </li>
+        
+
+        <!-- rss -->
+        
+
+        <!-- to bottom -->
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list border-box">
+        
+            <li class="tools-item toggle-show-toc-tablet flex-center">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        
+
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+
+        <li class="tools-item tool-scroll-to-top flex-center show-arrow">
+            <i class="arrow fas fa-arrow-up"></i>
+            <span class="percent"></span>
+        </li>
+    </ul>
+</div>
+
+    </div>
+
+    <!-- image mask -->
+    <div class="zoom-in-image-mask">
+    <img class="zoom-in-image">
+</div>
+
+
+    <!-- local search -->
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="搜索..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="close-popup-btn">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+    <!-- tablet toc -->
+    
+        <div class="tablet-post-toc-mask">
+            <div class="tablet-post-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#OverTheWire%E9%97%AF%E5%85%B3%E7%AC%94%E8%AE%B0"><span class="nav-number">1.</span> <span class="nav-text">OverTheWire闯关笔记</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E5%BE%80%E8%BF%9E%E6%8E%A5"><span class="nav-number">1.1.</span> <span class="nav-text">前往连接</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Bandit"><span class="nav-number">1.2.</span> <span class="nav-text">Bandit</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#0%E7%BA%A7"><span class="nav-number">1.2.1.</span> <span class="nav-text">0级</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1%E7%BA%A7"><span class="nav-number">1.2.2.</span> <span class="nav-text">1级</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2%E7%BA%A7"><span class="nav-number">1.2.3.</span> <span class="nav-text">2级</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3%E7%BA%A7"><span class="nav-number">1.2.4.</span> <span class="nav-text">3级</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4%E7%BA%A7"><span class="nav-number">1.2.5.</span> <span class="nav-text">4级</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5%E7%BA%A7"><span class="nav-number">1.2.6.</span> <span class="nav-text">5级</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6%E7%BA%A7"><span class="nav-number">1.2.7.</span> <span class="nav-text">6级</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7%E7%BA%A7"><span class="nav-number">1.2.8.</span> <span class="nav-text">7级</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8%E7%BA%A7"><span class="nav-number">1.2.9.</span> <span class="nav-text">8级</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9%E7%BA%A7"><span class="nav-number">1.2.10.</span> <span class="nav-text">9级</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10%E7%BA%A7"><span class="nav-number">1.2.11.</span> <span class="nav-text">10级</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#11%E7%BA%A7"><span class="nav-number">1.2.12.</span> <span class="nav-text">11级</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#12%E7%BA%A7"><span class="nav-number">1.2.13.</span> <span class="nav-text">12级</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#13%E7%BA%A7"><span class="nav-number">1.2.14.</span> <span class="nav-text">13级</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#14%E7%BA%A7"><span class="nav-number">1.2.15.</span> <span class="nav-text">14级</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#15%E7%BA%A7"><span class="nav-number">1.2.16.</span> <span class="nav-text">15级</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#16%E7%BA%A7"><span class="nav-number">1.2.17.</span> <span class="nav-text">16级</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#17%E7%BA%A7"><span class="nav-number">1.2.18.</span> <span class="nav-text">17级</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#18%E7%BA%A7"><span class="nav-number">1.2.19.</span> <span class="nav-text">18级</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#19%E7%BA%A7"><span class="nav-number">1.2.20.</span> <span class="nav-text">19级</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#20%E7%BA%A7"><span class="nav-number">1.2.21.</span> <span class="nav-text">20级</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#21%E7%BA%A7"><span class="nav-number">1.2.22.</span> <span class="nav-text">21级</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#22%E7%BA%A7"><span class="nav-number">1.2.23.</span> <span class="nav-text">22级</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#23%E7%BA%A7"><span class="nav-number">1.2.24.</span> <span class="nav-text">23级</span></a></li></ol></li></ol></li></ol>
+    </div>
+</div>
+
+            </div>
+        </div>
+    
+</main>
+
+
+
+
+
+<!-- common js -->
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/toggle-theme.js"></script>
+
+<script src="/js/code-block.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+
+<!-- local search -->
+
+    
+<script src="/js/local-search.js"></script>
+
+
+
+<!-- lazyload -->
+
+    
+<script src="/js/lazyload.js"></script>
+
+
+
+<div class="pjax">
+    <!-- home page -->
+    
+
+    <!-- post page -->
+    
+        <!-- post-helper -->
+        
+<script src="/js/post/post-helper.js"></script>
+
+
+        <!-- toc -->
+        
+            
+<script src="/js/post/toc.js"></script>
+
+        
+
+        <!-- copyright-info -->
+        
+            
+<script src="/js/post/copyright-info.js"></script>
+
+        
+
+        <!-- share -->
+        
+            
+<script src="/js/post/share.js"></script>
+
+        
+    
+
+    <!-- categories page -->
+    
+
+    <!-- links page -->
+    
+
+    <!-- photos page -->
+    
+
+    <!-- tools page -->
+    
+</div>
+
+<!-- mermaid -->
+
+
+<!-- pjax -->
+
+    
+<script src="/js/libs/pjax.min.js"></script>
+
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        window.pjax = new Pjax({
+            selectors: [
+                'head title',
+                '.page-container',
+                '.pjax'
+            ],
+            history: true,
+            debug: false,
+            cacheBust: false,
+            timeout: 0,
+            analytics: false,
+            currentUrlFullReload: false,
+            scrollRestoration: false,
+        });
+
+        document.addEventListener('pjax:send', () => {
+            KEEP.utils.pjaxProgressBarStart()
+        });
+
+        document.addEventListener('pjax:complete', () => {
+            KEEP.utils.pjaxProgressBarEnd()
+            window.pjax.executeScripts(document.querySelectorAll('script[data-pjax], .pjax script'))
+            KEEP.initExecute()
+        });
+    });
+</script>
+
+
+
+
+</body>
+</html>
